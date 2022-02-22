@@ -14,9 +14,9 @@ fenetre.configure()
 #fenetre.wm_attributes('-transparentcolor','black')#transparence
 
 #adaptation à l'ecran
-# l=fenetre.winfo_width()
-# h=fenetre.winfo_height()
-# fenetre.geometry("%dx%d"%(l,h))
+l=fenetre.winfo_width()
+h=fenetre.winfo_height()
+fenetre.geometry("%dx%d"%(l,h))
 
 #titre de du projet et sa frame
 frameLab =Frame(fenetre, width=1990, height=70, bg='#0FE3FF')
