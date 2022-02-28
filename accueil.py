@@ -1,7 +1,6 @@
-
 from sys import path
 from tkinter import*
-from unittest import main
+from tkinter import font
 import webbrowser# pour executer un lien 
 import hashlib  # module d'harchage
 import re  # module de verification email
@@ -30,42 +29,43 @@ regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
 def inscription():
     
     
-    frameInscription= Frame(accueil, width=400, height=1000, highlightbackground="black", highlightthickness=2, highlightcolor='green',bg="gray")
-    frameInscription.place(x=780,y=250)
-    nomLabel= Label(frameInscription,text="Nom", width=50, bg="gray", font=("Italique", 13, "bold"))
+    frameInscription= Frame(accueil, width=400, height=1000, highlightbackground="black", highlightthickness=2, highlightcolor='green',bg="lightgray")
+    frameInscription.place(x=750,y=170)
+
+    nomLabel= Label(frameInscription,text="Nom", width=40, bg="lightlightgray", font=("Italique", 15, "bold"))
     nomLabel.pack(pady=5,)
     #---------entry name--------
-    nomEntry=Entry(frameInscription,width=50, borderwidth=2)
+    nomEntry=Entry(frameInscription,width=50, borderwidth=10)
     nomEntry.pack(pady=30,ipady=10)
 
     #-----Label lastname--------
-    prenomLabel= Label(frameInscription,text="Prenom", width=50, bg="gray", font=("Italique", 13, "bold"))
+    prenomLabel= Label(frameInscription,text="Prenom", width=40, bg="lightlightgray", font=("Italique", 15, "bold"))
     prenomLabel.pack()
     #---------entry lastname--------
-    prenomEntry=Entry(frameInscription,width=50, borderwidth=2)
+    prenomEntry=Entry(frameInscription,width=50, borderwidth=10)
     prenomEntry.pack(pady=30,ipady=10)
 
     #-----Label email--------
-    emailLabel= Label(frameInscription,text="Prenom", width=50, bg="gray" ,font=("Italique", 13, "bold"))
+    emailLabel= Label(frameInscription,text="Email", width=40, bg="lightlightgray" ,font=("Italique", 15, "bold"))
     emailLabel.pack()
     #---------entry email--------
-    emailEntry=Entry(frameInscription,width=50, borderwidth=2)
+    emailEntry=Entry(frameInscription,width=50, borderwidth=10)
     emailEntry.pack(pady=30,ipady=10)
 
     #-----Label password--------
-    passwordLabel= Label(frameInscription,text="Password", width=50, bg="gray", font=("Italique", 13, "bold"))
+    passwordLabel= Label(frameInscription,text="Password", width=40, bg="lightgray", font=("Italique", 15, "bold"))
     passwordLabel.pack()
     #---------entry password--------
-    passwordEntry=Entry(frameInscription,width=50, borderwidth=2)
+    passwordEntry=Entry(frameInscription,width=50, borderwidth=10, show="*")
     passwordEntry.pack(pady=30,ipady=10) 
     #-----Label password--------
-    passwordLabel= Label(frameInscription,text="confirmer password", width=50, bg="gray", font=("Italique", 13, "bold"))
+    passwordLabel= Label(frameInscription,text="confirmer password", width=40, bg="lightlightgray", font=("Italique", 15, "bold"), )
     passwordLabel.pack()
     #---------entry password--------
-    confirm_passwordEntry=Entry(frameInscription,width=50, borderwidth=2)
+    confirm_passwordEntry=Entry(frameInscription,width=50, borderwidth=10, show="*")
     confirm_passwordEntry.pack(pady=30,ipady=10) 
     
-    def conditionSave():
+    def conditionInscription():
             #encodage
         hash_mdp = confirm_passwordEntry.get().encode()
 
@@ -75,12 +75,12 @@ def inscription():
         #impression(hachage) 
         hachage = d.hexdigest() 
 
-        print(hachage)
+       
         
         #dictionnaire de recuperation
         d={
-            "nom": nomEntry.get(),
-            "prenom": prenomEntry.get(),
+            "nom": nomEntry.get().capitalize(),
+            "prenom": prenomEntry.get().capitalize(),
             "email": emailEntry.get(),
             "mdp": hachage
         }
@@ -97,7 +97,7 @@ def inscription():
                 c = conn.cursor()
                 
                 #--------------creation de la table dans la base de donnees---------
-                c.execute("""CREATE TABLE IF NOT EXISTS inscription(
+                c.execute("""CREATE TABLE IF NOT EXISTS user(
                     nom text,
                     prenom text,
                     email text,
@@ -106,59 +106,60 @@ def inscription():
 
 
                 #--------enregistrement des element dans la base de donnees---------- 
-                c.execute("INSERT INTO inscription VALUES(:nom, :prenom, :email, :mdp)", d)
+                c.execute("INSERT INTO user VALUES(:nom, :prenom, :email, :mdp)", d)
                 
                 #---------ajout dans la base de donnees-----
                 conn.commit()
                 conn.close()
                 messagebox.showinfo("validEmail","Inscription reusie!")
-            else:
-                messagebox.showerror('error',"Email Invalide!")
                 frameInscription.place_forget()
                 connexion()
-
+            else:
+                messagebox.showerror('error',"Email Invalide!")
+                
         else:
             messagebox.showerror('error',"mot de pass n'est pas identique!")
         
    
         
     #-----------button-------------
-    saveBtn= Button(frameInscription,text="save", width=20, fg="red",font=("Simple", 13, "bold"), highlightbackground="gray",borderwidth=1, command=conditionSave)
+    saveBtn= Button(frameInscription,text="S'insris", width=20, fg="red",font=("Simple", 15, "bold"), highlightbackground="lightgray",borderwidth=1, command=conditionInscription)
     saveBtn.pack(pady=20,ipady=5)
     
 
 
 def connexion():
     
-    frame= Frame(accueil, width=400, height=800, highlightbackground="black", highlightthickness=2, highlightcolor='green',bg="gray")
-    # frame.winfo_geometry
-    frame.place(x=780,y=253)
+    frameConnexion= Frame(accueil, width=400, height=800, highlightbackground="black", highlightthickness=2, highlightcolor='green',bg="lightgray")
+    # frameConnexion.winfo_geometry
+    frameConnexion.place(x=770,y=170)
 
 
 
     #-----Label email--------
-    emailLabel= Label(frame,text="Email", width=50, bg="gray" ,font=("Italique", 13, "bold"))
+    emailLabel= Label(frameConnexion,text="Email",  width=40, bg="lightgray" ,font=("Italique", 15, "bold"))
     emailLabel.pack(pady=15,)
     #---------entry email--------
-    emailEntry=Entry(frame,width=50)
+    emailEntry=Entry(frameConnexion,width=50, borderwidth=10)
     emailEntry.pack(pady=30,ipady=10)
 
     #-----Label password--------
-    passwordLabel= Label(frame,text="Password", width=50, bg="gray", font=("Italique", 13, "bold"))
+    passwordLabel= Label(frameConnexion,text="Password", width=40, bg="lightgray", font=("Italique", 15, "bold"))
     passwordLabel.pack()
     #---------entry password--------
-    passwordEntry=Entry(frame,width=50)
+    passwordEntry=Entry(frameConnexion,width=50,  borderwidth=10, show='*')
     passwordEntry.pack(pady=30,ipady=10) 
 
 
-    def condtionCnnexion():
+    def conditionConnexion():
 
         
         if emailEntry.get()=="" or passwordEntry.get()=="":
             messagebox.showerror("error","veuillez remplier les champs")
+
         elif emailEntry.get() and passwordEntry.get():
         
-            
+    
             #encodage
             hash_pwd_connexion = passwordEntry.get().encode()
             # instancier l'objet sha3_256 
@@ -172,21 +173,22 @@ def connexion():
             #designer le cursor "c"
             c =conn.cursor()
 
-            c.execute("SELECT  email,mdp FROM inscription WHERE email=:email AND mdp=:mdp ",d)
+            c.execute("SELECT  email,mdp FROM user WHERE email=:email AND mdp=:mdp ",d)
 
             donneeParcourie=c.fetchall()
-            print(donneeParcourie)
+            
             for i in donneeParcourie:
-                if emailEntry.get() in donneeParcourie and hachees in donneeParcourie:
+                if emailEntry.get() in i  and hachees in i:
                     messagebox.showinfo('info',"vous etes connecté!")
+                    accueil.destroy()
+                    main()
                     break
                     
             #------------------------fermerture de la connexion------------------------------
             conn.commit()   
             conn.close()
             #-----
-            accueil.destroy()
-            main()
+           
 
         # frameLab =Frame(accueil, width=1990, height=70, bg='#0FE3FF')
         # frameLab.pack()
@@ -254,32 +256,39 @@ def connexion():
 
 
     #-----------button-------------
-    saveBtn= Button(frame,text="connect", width=20, fg="red",font=("Italique", 13, "bold"),highlightbackground='#00aeff', command=condtionCnnexion)
+    saveBtn= Button(frameConnexion,text="Se connecté", width=20, fg="red",font=("Italique", 15, "bold"),highlightbackground='#00aeff', command=conditionConnexion)
     
     saveBtn.pack(pady=30,ipady=5)
     
 
 def main():
     fenetre =Tk()
-    fenetre.title()
+    fenetre.title("presentation")
     fenetre.configure()
-    
+
     #fenetre.wm_attributes('-transparentcolor','black')#transparence
 
     #adaptation à l'ecran
     # l=fenetre.winfo_width()
     # h=fenetre.winfo_height()
     # fenetre.geometry("%dx%d"%(l,h))
-
+    #----------------function deconnection
+    def retourAccueil():
+        
+        fenetre.destroy()
+        import accueil
+        
     #titre de du projet et sa frame
-    frameLab =Frame(fenetre, width=1990, height=1200, bg='#0FE3FF')
+    frameLab =Frame(fenetre, width=1990, height=70, bg='#0FE3FF')
     frameLab.pack()
+
     lab = Label(frameLab ,bg='#0FE3FF', font=("Gras italique", 40, "bold"))#text="""Bienvenue sur les Hotels d'Assinie Mafia"""
     lab.place( x=800,y=10,)
+    #---------button deconnection-------
+    Button(fenetre,text="Déconnection", width=7,fg="red",font=("Simple",15,"bold"), command=retourAccueil).place(x=1790, y=10)
 
     img = ImageTk.PhotoImage(Image.open("images/ci.jpeg"))
     img_label=Label(fenetre,image= img, width=1990, height=500).pack(expand="y",)
-
     #frame de diff hotels
     frameCadreImage=Frame(fenetre,)
     frameCadreImage.pack()
@@ -288,10 +297,10 @@ def main():
     frameCadre=Frame(frameCadreImage, width=350, height=250, bg="")
     frameCadre.grid(row=0, column=0, padx=0, pady=10, sticky=N)
 
-    # imagCadre1 = ImageTk.PhotoImage(Image.open("images/cdre1.jpeg"))
-    # img_label=Label(frameCadre,image= imagCadre1, width=350, height=250).grid(row=0, column=0,)#pack(expand=True)
+    imagCadre1 = ImageTk.PhotoImage(Image.open("images/cdre1.jpeg"))
+    img_label=Label(frameCadre,image= imagCadre1, width=350, height=250).grid(row=0, column=0,)#pack(expand=True)
 
-    btnCadre1=Button(frameCadre, text="Detail", bg="black",)
+    btnCadre1=Button(frameCadre, text="Detail", bg="black", )
     btnCadre1.place(x=273, y=225)
 
     labCadre1=Label(frameCadre, text="Villa Assinie Bord de Lagune", font=('Simple', 25, 'bold') )
@@ -302,8 +311,8 @@ def main():
     frameCadre1=Frame(frameCadre, width=350, height=250, bg="red")
     frameCadre1.grid(row=0, column=1,padx=0, pady=10, sticky=N)
 
-    # imagCadre2 = ImageTk.PhotoImage(Image.open("images/cadr2.jpeg"))
-    # img_label2=Label(frameCadre1,image= imagCadre2, width=350, height=250).grid(row=0, column=0,)#pack(expand=True)
+    imagCadre2 = ImageTk.PhotoImage(Image.open("images/cadr2.jpeg"))
+    img_label2=Label(frameCadre1,image= imagCadre2, width=350, height=250).grid(row=0, column=0,)#pack(expand=True)
 
     labCadre2=Label(frameCadre1, text="La Maison Blanche", font=('Simple', 25, ) )
     labCadre2.place(x=70, y=25, )
@@ -315,26 +324,26 @@ def main():
     frameCadre3=Frame(frameCadre, width=350, height=250, bg="light green")
     frameCadre3.grid(row=1, column=0,)
 
-    # imagCadre3 = ImageTk.PhotoImage(Image.open("images/cadr3.jpeg"))
-    # img_label3=Label(frameCadre3,image= imagCadre3, width=350, height=250).grid(row=0, column=0,)#pack(expand=True)
+    imagCadre3 = ImageTk.PhotoImage(Image.open("images/cadr3.jpeg"))
+    img_label3=Label(frameCadre3,image= imagCadre3, width=350, height=250).grid(row=0, column=0,)#pack(expand=True)
 
     labCadre3=Label(frameCadre3, text="Hotel Akwa Beach", font=('Simple', 25, ) )
     labCadre3.place(x=70, y=25, )
 
-    btnCadre4=Button(frameCadre3, text="Detail", bg="black", )
+    btnCadre4=Button(frameCadre3, text="Detail", bg="black",)
     btnCadre4.place(x=290, y=218)
 
     # #diffHotel4
     frameCadre4=Frame(frameCadre, width=350, height=250, bg="lightblue")
     frameCadre4.grid(row=1, column=1, padx=10)
 
-    # imagCadre4 = ImageTk.PhotoImage(Image.open("images/cdre4.jpg"))
-    # img_label4=Label(frameCadre4,image= imagCadre4, width=350, height=250).grid(row=0, column=0,)#pack(expand=True)
+    imagCadre4 = ImageTk.PhotoImage(Image.open("images/cdre4.jpg"))
+    img_label4=Label(frameCadre4,image= imagCadre4, width=350, height=250).grid(row=0, column=0,)#pack(expand=True)
 
     labCadre4=Label(frameCadre4, text="Assinie Lodge", font=('Simple', 25, ) )
     labCadre4.place(x=70, y=25, )
 
-    btnCadre4=Button(frameCadre4, text="Detail", bg="black",)
+    btnCadre4=Button(frameCadre4, text="Detail", bg="black", )
     btnCadre4.place(x=290, y=218)
 
 
@@ -344,7 +353,7 @@ def main():
     # frameCadre4.grid(row=0, column=3, padx=10)
 
     # #diffHotel5
-    # frameCadre=Frame(frameCadreImage, width=350, height=250, bg="gray")
+    # frameCadre=Frame(frameCadreImage, width=350, height=250, bg="lightgray")
     # frameCadre.grid(row=1, column=0, pady=20)
     # #diffHotel5
     # frameCadre11=Frame(frameCadreImage, width=350, height=250, bg="green")

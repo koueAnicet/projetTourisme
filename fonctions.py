@@ -1,7 +1,9 @@
 from tkinter import*
+from PIL import ImageTk,Image #pour afficher les image
 import webbrowser
 
 def beach1():
+    
     webbrowser.open("https://www.kayak.com/hotels/Villa-Assinie-Bord-de-Lagune,Assinie-Mafia-c103471-h2952994-details/")
 
 def beach2():

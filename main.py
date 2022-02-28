@@ -9,28 +9,29 @@ import fonctions
 
 def main():
     fenetre =Tk()
-    fenetre.title()
+    fenetre.title("presentation")
     fenetre.configure()
 
     #fenetre.wm_attributes('-transparentcolor','black')#transparence
 
     #adaptation à l'ecran
-    l=fenetre.winfo_width()
-    h=fenetre.winfo_height()
-    fenetre.geometry("%dx%d"%(l,h))
+    # l=fenetre.winfo_width()
+    # h=fenetre.winfo_height()
+    # fenetre.geometry("%dx%d"%(l,h))
 
     #titre de du projet et sa frame
+    scrollbar_x=Scrollbar(fenetre, orient=HORIZONTAL).
     frameLab =Frame(fenetre, width=1990, height=70, bg='#0FE3FF')
     frameLab.pack()
     lab = Label(frameLab ,bg='#0FE3FF', font=("Gras italique", 40, "bold"))#text="""Bienvenue sur les Hotels d'Assinie Mafia"""
     lab.place( x=800,y=10,)
 
-    img = ImageTk.PhotoImage(Image.open("images/125365_v3.jpeg"))
+    img = ImageTk.PhotoImage(Image.open("images/ci.jpeg"))
     img_label=Label(fenetre,image= img, width=1990, height=500).pack(expand="y",)
     #frame de diff hotels
     frameCadreImage=Frame(fenetre,)
     frameCadreImage.pack()
-
+    
     #Hotel1
     frameCadre=Frame(frameCadreImage, width=350, height=250, bg="")
     frameCadre.grid(row=0, column=0, padx=0, pady=10, sticky=N)
