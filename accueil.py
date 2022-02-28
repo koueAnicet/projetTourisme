@@ -1,5 +1,4 @@
 
-from subprocess import call
 from sys import path
 from tkinter import*
 from unittest import main
@@ -7,7 +6,7 @@ import webbrowser# pour executer un lien
 import hashlib  # module d'harchage
 import re  # module de verification email
 import sqlite3
-from tkinter import *
+
 from tkinter import messagebox
 from PIL import ImageTk,Image #pour afficher les image
 import os
@@ -25,7 +24,11 @@ accueil.configure()
 
 accueil.geometry("1990x1200")
 
+#les caracteres de verifcation de mot de passe
+regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+
 def inscription():
+    
     
     frameInscription= Frame(accueil, width=400, height=1000, highlightbackground="black", highlightthickness=2, highlightcolor='green',bg="gray")
     frameInscription.place(x=780,y=250)
@@ -55,10 +58,70 @@ def inscription():
     #---------entry password--------
     passwordEntry=Entry(frameInscription,width=50, borderwidth=2)
     passwordEntry.pack(pady=30,ipady=10) 
+    #-----Label password--------
+    passwordLabel= Label(frameInscription,text="confirmer password", width=50, bg="gray", font=("Italique", 13, "bold"))
+    passwordLabel.pack()
+    #---------entry password--------
+    confirm_passwordEntry=Entry(frameInscription,width=50, borderwidth=2)
+    confirm_passwordEntry.pack(pady=30,ipady=10) 
+    
     def conditionSave():
-        frameInscription.place_forget()
-        connexion()
+            #encodage
+        hash_mdp = confirm_passwordEntry.get().encode()
 
+        # instancier l'objet sha3_256 
+        d = hashlib.sha3_256(hash_mdp)
+
+        #impression(hachage) 
+        hachage = d.hexdigest() 
+
+        print(hachage)
+        
+        #dictionnaire de recuperation
+        d={
+            "nom": nomEntry.get(),
+            "prenom": prenomEntry.get(),
+            "email": emailEntry.get(),
+            "mdp": hachage
+        }
+        if nomEntry.get()=="" or prenomEntry.get()=="" or emailEntry.get()=="" or passwordEntry.get()=="" or confirm_passwordEntry.get()=="":
+            messagebox.showerror("error","Remplissez tous les champs!")
+        elif emailEntry.get().isspace() or passwordEntry.get().isspace() or confirm_passwordEntry.get().isspace():   
+                    messagebox.showerror('error',"pas d'espacement!")
+        
+        elif passwordEntry.get() == confirm_passwordEntry.get():
+            #----------verificationde email------------
+            if (re.search(regex,emailEntry.get())):
+                conn = sqlite3.connect("database.db")
+                
+                c = conn.cursor()
+                
+                #--------------creation de la table dans la base de donnees---------
+                c.execute("""CREATE TABLE IF NOT EXISTS inscription(
+                    nom text,
+                    prenom text,
+                    email text,
+                    mdp integer
+                )""")
+
+
+                #--------enregistrement des element dans la base de donnees---------- 
+                c.execute("INSERT INTO inscription VALUES(:nom, :prenom, :email, :mdp)", d)
+                
+                #---------ajout dans la base de donnees-----
+                conn.commit()
+                conn.close()
+                messagebox.showinfo("validEmail","Inscription reusie!")
+            else:
+                messagebox.showerror('error',"Email Invalide!")
+                frameInscription.place_forget()
+                connexion()
+
+        else:
+            messagebox.showerror('error',"mot de pass n'est pas identique!")
+        
+   
+        
     #-----------button-------------
     saveBtn= Button(frameInscription,text="save", width=20, fg="red",font=("Simple", 13, "bold"), highlightbackground="gray",borderwidth=1, command=conditionSave)
     saveBtn.pack(pady=20,ipady=5)
@@ -69,7 +132,7 @@ def connexion():
     
     frame= Frame(accueil, width=400, height=800, highlightbackground="black", highlightthickness=2, highlightcolor='green',bg="gray")
     # frame.winfo_geometry
-    frame.place(x=780,y=280)
+    frame.place(x=780,y=253)
 
 
 
@@ -90,10 +153,40 @@ def connexion():
 
     def condtionCnnexion():
 
-        frame.place_forget()
-        #-----
-        accueil.destroy()
-        main()
+        
+        if emailEntry.get()=="" or passwordEntry.get()=="":
+            messagebox.showerror("error","veuillez remplier les champs")
+        elif emailEntry.get() and passwordEntry.get():
+        
+            
+            #encodage
+            hash_pwd_connexion = passwordEntry.get().encode()
+            # instancier l'objet sha3_256 
+            donnesConnexion= hashlib.sha3_256(hash_pwd_connexion)
+
+            #impression(hachage) 
+            hachees = donnesConnexion.hexdigest()
+            d={"email": emailEntry.get(), "mdp": hachees}
+            #--------------connexion a base de donne--------------------
+            conn = sqlite3.connect('database.db')
+            #designer le cursor "c"
+            c =conn.cursor()
+
+            c.execute("SELECT  email,mdp FROM inscription WHERE email=:email AND mdp=:mdp ",d)
+
+            donneeParcourie=c.fetchall()
+            print(donneeParcourie)
+            for i in donneeParcourie:
+                if emailEntry.get() in donneeParcourie and hachees in donneeParcourie:
+                    messagebox.showinfo('info',"vous etes connecté!")
+                    break
+                    
+            #------------------------fermerture de la connexion------------------------------
+            conn.commit()   
+            conn.close()
+            #-----
+            accueil.destroy()
+            main()
 
         # frameLab =Frame(accueil, width=1990, height=70, bg='#0FE3FF')
         # frameLab.pack()
@@ -184,7 +277,7 @@ def main():
     lab = Label(frameLab ,bg='#0FE3FF', font=("Gras italique", 40, "bold"))#text="""Bienvenue sur les Hotels d'Assinie Mafia"""
     lab.place( x=800,y=10,)
 
-    img = ImageTk.PhotoImage(Image.open("images/img2main.jpeg"))
+    img = ImageTk.PhotoImage(Image.open("images/ci.jpeg"))
     img_label=Label(fenetre,image= img, width=1990, height=500).pack(expand="y",)
 
     #frame de diff hotels
