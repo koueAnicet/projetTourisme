@@ -20,7 +20,7 @@ def main():
     # fenetre.geometry("%dx%d"%(l,h))
 
     #titre de du projet et sa frame
-    scrollbar_x=Scrollbar(fenetre, orient=HORIZONTAL).
+    
     frameLab =Frame(fenetre, width=1990, height=70, bg='#0FE3FF')
     frameLab.pack()
     lab = Label(frameLab ,bg='#0FE3FF', font=("Gras italique", 40, "bold"))#text="""Bienvenue sur les Hotels d'Assinie Mafia"""

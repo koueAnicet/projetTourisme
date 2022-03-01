@@ -3,8 +3,17 @@ from PIL import ImageTk,Image #pour afficher les image
 import webbrowser
 
 def beach1():
+    fenetre =Tk()
+    fenetre.title("presentation")
+    fenetre.configure()
+
+    img = ImageTk.PhotoImage(Image.open("images/ci.jpeg"))
+    img_label=Label(fenetre,image= img, width=1200,height=500).pack(expand=Y)
+    label=Label(text="", font=("Italique",13,"bold"))
     
-    webbrowser.open("https://www.kayak.com/hotels/Villa-Assinie-Bord-de-Lagune,Assinie-Mafia-c103471-h2952994-details/")
+    label.pack()
+    fenetre.mainloop
+    
 
 def beach2():
     webbrowser.open("https://www.kayak.com/hotels/La-Maison-Blanche,Assinie-Mafia-c103471-h3755754-details/")

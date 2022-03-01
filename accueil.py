@@ -1,13 +1,14 @@
 from sys import path
 from tkinter import*
-from tkinter import font
+from tkinter import messagebox
+from PIL import ImageTk,Image #pour afficher les image
 import webbrowser# pour executer un lien 
 import hashlib  # module d'harchage
 import re  # module de verification email
 import sqlite3
+import fonctions
 
-from tkinter import messagebox
-from PIL import ImageTk,Image #pour afficher les image
+
 import os
 # import fonctions,connexion,inscription
 
@@ -17,11 +18,12 @@ accueil.configure()
 
 #accueil.wm_attributes('-transparentcolor','black')#transparence
 
-#adaptation à l'ecran
-# l=accueil.winfo_width()
-# h=accueil.winfo_height()
+l=accueil.winfo_width()
+h=accueil.winfo_height()
+accueil.geometry("%dx%d"%(l,h))
 
-accueil.geometry("1990x1200")
+#accueil.geometry("1990x1200")
+
 
 #les caracteres de verifcation de mot de passe
 regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
@@ -32,7 +34,7 @@ def inscription():
     frameInscription= Frame(accueil, width=400, height=1000, highlightbackground="black", highlightthickness=2, highlightcolor='green',bg="lightgray")
     frameInscription.place(x=750,y=170)
 
-    nomLabel= Label(frameInscription,text="Nom", width=40, bg="lightlightgray", font=("Italique", 15, "bold"))
+    nomLabel= Label(frameInscription,text="Nom", width=40, bg="lightgray", font=("Italique", 15, "bold"))
     nomLabel.pack(pady=5,)
     #---------entry name--------
     nomEntry=Entry(frameInscription,width=50, borderwidth=10)
@@ -274,10 +276,12 @@ def main():
     # fenetre.geometry("%dx%d"%(l,h))
     #----------------function deconnection
     def retourAccueil():
-        
         fenetre.destroy()
         import accueil
-        
+    
+    scro_x=Scrollbar(fenetre, orient=VERTICAL)
+    
+    
     #titre de du projet et sa frame
     frameLab =Frame(fenetre, width=1990, height=70, bg='#0FE3FF')
     frameLab.pack()
@@ -287,8 +291,8 @@ def main():
     #---------button deconnection-------
     Button(fenetre,text="Déconnection", width=7,fg="red",font=("Simple",15,"bold"), command=retourAccueil).place(x=1790, y=10)
 
-    img = ImageTk.PhotoImage(Image.open("images/ci.jpeg"))
-    img_label=Label(fenetre,image= img, width=1990, height=500).pack(expand="y",)
+   # img = ImageTk.PhotoImage(Image.open("images/ci.jpeg"))
+    #img_label=Label(fenetre,image= img, width=1990, height=500).pack(expand="y",)
     #frame de diff hotels
     frameCadreImage=Frame(fenetre,)
     frameCadreImage.pack()
@@ -300,10 +304,10 @@ def main():
     imagCadre1 = ImageTk.PhotoImage(Image.open("images/cdre1.jpeg"))
     img_label=Label(frameCadre,image= imagCadre1, width=350, height=250).grid(row=0, column=0,)#pack(expand=True)
 
-    btnCadre1=Button(frameCadre, text="Detail", bg="black", )
+    btnCadre1=Button(frameCadre, text="Detail", bg="black", command=fonctions.beach1 )
     btnCadre1.place(x=273, y=225)
 
-    labCadre1=Label(frameCadre, text="Villa Assinie Bord de Lagune", font=('Simple', 25, 'bold') )
+    labCadre1=Label(frameCadre, text="Villa Assinie Bord de Lagune", font=('Simple', 17, 'bold') )
     labCadre1.place(x=10, y=25)
     #frameCadre.wm_attributes('-transparent','black')#transparence
 
@@ -354,7 +358,7 @@ def main():
 
     # #diffHotel5
     # frameCadre=Frame(frameCadreImage, width=350, height=250, bg="lightgray")
-    # frameCadre.grid(row=1, column=0, pady=20)
+    # # frameCadre.grid(row=1, column=0, pady=20)
     # #diffHotel5
     # frameCadre11=Frame(frameCadreImage, width=350, height=250, bg="green")
     # frameCadre11.grid(row=1, column=1, padx=10)
