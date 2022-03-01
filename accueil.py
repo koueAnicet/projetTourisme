@@ -18,11 +18,11 @@ accueil.configure()
 
 #accueil.wm_attributes('-transparentcolor','black')#transparence
 
-l=accueil.winfo_width()
-h=accueil.winfo_height()
-accueil.geometry("%dx%d"%(l,h))
+# l=accueil.winfo_width()
+# h=accueil.winfo_height()
+# accueil.geometry("%dx%d"%(l,h))
 
-#accueil.geometry("1990x1200")
+accueil.geometry("1990x1200")
 
 
 #les caracteres de verifcation de mot de passe
@@ -41,14 +41,14 @@ def inscription():
     nomEntry.pack(pady=30,ipady=10)
 
     #-----Label lastname--------
-    prenomLabel= Label(frameInscription,text="Prenom", width=40, bg="lightlightgray", font=("Italique", 15, "bold"))
+    prenomLabel= Label(frameInscription,text="Prenom", width=40, bg="lightgray", font=("Italique", 15, "bold"))
     prenomLabel.pack()
     #---------entry lastname--------
     prenomEntry=Entry(frameInscription,width=50, borderwidth=10)
     prenomEntry.pack(pady=30,ipady=10)
 
     #-----Label email--------
-    emailLabel= Label(frameInscription,text="Email", width=40, bg="lightlightgray" ,font=("Italique", 15, "bold"))
+    emailLabel= Label(frameInscription,text="Email", width=40, bg="lightgray" ,font=("Italique", 15, "bold"))
     emailLabel.pack()
     #---------entry email--------
     emailEntry=Entry(frameInscription,width=50, borderwidth=10)
@@ -61,7 +61,7 @@ def inscription():
     passwordEntry=Entry(frameInscription,width=50, borderwidth=10, show="*")
     passwordEntry.pack(pady=30,ipady=10) 
     #-----Label password--------
-    passwordLabel= Label(frameInscription,text="confirmer password", width=40, bg="lightlightgray", font=("Italique", 15, "bold"), )
+    passwordLabel= Label(frameInscription,text="confirmer password", width=40, bg="lightgray", font=("Italique", 15, "bold"), )
     passwordLabel.pack()
     #---------entry password--------
     confirm_passwordEntry=Entry(frameInscription,width=50, borderwidth=10, show="*")
@@ -267,7 +267,7 @@ def main():
     fenetre =Tk()
     fenetre.title("presentation")
     fenetre.configure()
-
+    
     #fenetre.wm_attributes('-transparentcolor','black')#transparence
 
     #adaptation à l'ecran
@@ -321,7 +321,7 @@ def main():
     labCadre2=Label(frameCadre1, text="La Maison Blanche", font=('Simple', 25, ) )
     labCadre2.place(x=70, y=25, )
 
-    btnCadre2=Button(frameCadre1, text="Detail", bg="black",)
+    btnCadre2=Button(frameCadre1, text="Detail", bg="black", command=fonctions.beach2)
     btnCadre2.place(x=290, y=218)
 
     # #diffHotel3
@@ -334,7 +334,7 @@ def main():
     labCadre3=Label(frameCadre3, text="Hotel Akwa Beach", font=('Simple', 25, ) )
     labCadre3.place(x=70, y=25, )
 
-    btnCadre4=Button(frameCadre3, text="Detail", bg="black",)
+    btnCadre4=Button(frameCadre3, text="Detail", bg="black",command=fonctions.beach3)
     btnCadre4.place(x=290, y=218)
 
     # #diffHotel4
@@ -347,7 +347,7 @@ def main():
     labCadre4=Label(frameCadre4, text="Assinie Lodge", font=('Simple', 25, ) )
     labCadre4.place(x=70, y=25, )
 
-    btnCadre4=Button(frameCadre4, text="Detail", bg="black", )
+    btnCadre4=Button(frameCadre4, text="Detail", bg="black", command=fonctions.beach4)
     btnCadre4.place(x=290, y=218)
 
 
